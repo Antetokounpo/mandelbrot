@@ -49,7 +49,7 @@ void write_to_file(std::string filename, uint pixels[XRES][YRES][3])
 
 int main()
 {
-    std::complex<double> center(0.5, 0);
+    std::complex<double> center(RCENTER, ICENTER);
     std::complex<double> c;
     uint color;
     static uint pixels[YRES][XRES][3]; // static pour pas overflow
