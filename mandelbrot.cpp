@@ -1,5 +1,6 @@
 #include<iostream>
-#include<vector>
+#include<fstream>
+#include<string>
 #include<complex>
 #include<SDL2/SDL.h>
 
@@ -24,52 +25,49 @@ uint iterate(std::complex<double> c, uint iterations)
     return 0; // Valeur bool = false
 }
 
+void write_to_file(std::string filename, uint pixels[XRES][YRES][3])
+{
+    std::ofstream fout;
+    fout.open(filename, std::ios::out);
+
+    fout << "P3\n";
+    fout << std::to_string(XRES) + " " + std::to_string(YRES) << std::endl;
+    fout << 255 << std::endl;
+
+    for(uint y = 0; y<YRES; ++y)
+    {
+        for(uint x = 0; x<XRES; ++x)
+        {
+            fout << std::to_string(pixels[y][x][2]) << " ";
+            fout << std::to_string(pixels[y][x][1]) << " ";
+            fout << std::to_string(pixels[y][x][0]) << " ";
+        }
+        fout << "\n";
+    }
+    fout.close();
+}
+
 int main()
 {
-    bool quit = false;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    SDL_Event e;
     std::complex<double> center(0.5, 0);
     std::complex<double> c;
     uint color;
+    static uint pixels[YRES][XRES][3]; // static pour pas overflow
 
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    for(int y = 0; y<YRES; ++y)
     {
-        std::cout << SDL_GetError() << std::endl;
-        return 1;
+        for(int x = 0; x<XRES; ++x)
+        {
+            c = pixel_to_cplx(x, y, XRES, YRES, center, ZOOM);
+            color = (float)iterate(c, ITERATIONS) / (float)ITERATIONS * 0xFFFFFF;
+
+            pixels[y][x][0] = color & 0xFF;
+            pixels[y][x][1] = color >> 8 & 0xFF;
+            pixels[y][x][2] = color >> 16 & 0xFF;
+        }
     }
 
-    window = SDL_CreateWindow("Mandelbrot", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, XRES, YRES, 0);
-    renderer = SDL_CreateRenderer(window, -1, 0);
+    write_to_file("mandelbrot.ppm", pixels);
 
-    while(!quit)
-    {
-        while(SDL_PollEvent(&e) > 0)
-        {
-            if(e.type == SDL_QUIT)
-                quit = true;
-        }
-
-        for(int y = 0; y<YRES; ++y)
-        {
-            for(int x = 0; x<XRES; ++x)
-            {
-                c = pixel_to_cplx(x, y, XRES, YRES, center, ZOOM);
-                color = (float)iterate(c, ITERATIONS) / (float)ITERATIONS * 0xFFFFFF;
-                std::cout << color << std::endl;
-                if(color)
-                    SDL_SetRenderDrawColor(renderer, color & 0xFF0000, color & 0x00FF00, color &  0x0000FF, 255);
-                else
-                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-                
-                SDL_RenderDrawPoint(renderer, x, y);
-            }
-        }
-
-        SDL_RenderPresent(renderer);
-    }
-
-    SDL_Quit();
     return 0;
 }
