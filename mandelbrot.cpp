@@ -17,7 +17,7 @@ uint iterate(std::complex<double> c, uint iterations)
 
     for(uint i = 0; i<iterations; ++i)
     {
-        z = std::pow(z, 2) + c;
+        z = function(z, c);
 
         if(std::abs(z) > 2)
             return i+1; // Nombre d'itérations avant de tendre vers l'infini
