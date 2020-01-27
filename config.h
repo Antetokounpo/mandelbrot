@@ -1,13 +1,13 @@
 #include<complex>
 
-const int XRES = 1000;
-const int YRES = 1000;
-const int ITERATIONS = 1000;
-const double ZOOM = 1;
-const double RCENTER = 0.5;
-const double ICENTER = 0.;
+const int XRES = 2000;
+const int YRES = 2000;
+const int ITERATIONS = 8000;
+const long double ZOOM = 5;
+const long double RCENTER = -0.170337;
+const long double ICENTER = -1.06506;
 
-std::complex<double> function(std::complex<double> z, std::complex<double> c) { return
+std::complex<long double> function(std::complex<long double> z, std::complex<long double> c) { return
 
     std::pow(z, 2) + c;
 

@@ -6,16 +6,16 @@
 
 #include "config.h"
 
-std::complex<double> pixel_to_cplx(double x, double y, int xres, int yres, std::complex<double> center, double zoom)
+std::complex<long double> pixel_to_cplx(long double x, long double y, int xres, int yres, std::complex<long double> center, long double zoom)
 {
-    return std::complex<double> ((x/xres*2 - (1 + center.real()))/zoom, (-y/yres*2 + (1 + center.imag()))/zoom);
+    return std::complex<long double> (((x - 0) * (2 - -2) / (xres - 0) + -2), -((y - 0) * (2 - -2) / (yres - 0) + -2)) / zoom + center;
 }
 
-uint iterate(std::complex<double> c, uint iterations)
+unsigned int iterate(std::complex<long double> c, uint iterations)
 {
-    std::complex<double> z = (0, 0);
+    std::complex<long double> z = 0;
 
-    for(uint i = 0; i<iterations; ++i)
+    for(unsigned int i = 0; i<iterations; ++i)
     {
         z = function(z, c);
 
@@ -49,8 +49,8 @@ void write_to_file(std::string filename, uint pixels[XRES][YRES][3])
 
 int main()
 {
-    std::complex<double> center(RCENTER, ICENTER);
-    std::complex<double> c;
+    std::complex<long double> center(RCENTER, ICENTER);
+    std::complex<long double> c;
     uint color;
     static uint pixels[YRES][XRES][3]; // static pour pas overflow
 
