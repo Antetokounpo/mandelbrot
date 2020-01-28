@@ -11,7 +11,7 @@ std::complex<long double> pixel_to_cplx(long double x, long double y, int xres, 
     return std::complex<long double> (((x - 0) * (2 - -2) / (xres - 0) + -2), -((y - 0) * (2 - -2) / (yres - 0) + -2)) / zoom + center;
 }
 
-unsigned int iterate(std::complex<long double> c, uint iterations)
+unsigned int iterate(std::complex<long double> c, unsigned int iterations)
 {
     std::complex<long double> z = 0;
 
