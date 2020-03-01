@@ -2,7 +2,6 @@
 #include<fstream>
 #include<string>
 #include<complex>
-#include<SDL2/SDL.h>
 
 #include "config.h"
 
