@@ -6,3 +6,4 @@ is imagemagick to convert the PPM file to PNG.
 ![1](/examples/mandelbrot0.png)
 ![2](/examples/mandelbrot1.png)
 ![3](/examples/mandelbrot2.png)
+![4](/examples/mandelbrot_p4.png)
